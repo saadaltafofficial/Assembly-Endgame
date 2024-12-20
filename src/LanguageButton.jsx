@@ -9,7 +9,7 @@ const LanguageButton = (props) => {
     }
 
   return (
-    <button className="px-3 rounded-md py-1" style={styles}>{props.name}</button>
+    <button className="px-3 rounded-[3px] py-1" style={styles}>{props.name}</button>
   )
 }
 

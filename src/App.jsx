@@ -3,30 +3,65 @@ import LanguageButton from "./languageButton"
 import { useState } from "react"
 
 function App() {
-  const [currentWord, setCurrentWord] = useState('ReactEndgame')
+  const [currentWord] = useState('react')
+  const [allLetters, setAllLetters] = useState([])
+  
+  const wrongGuesses = allLetters.filter(letter => !currentWord.includes(letter))
+  console.log(wrongGuesses.length)
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz"
 
-  const allLanguages = languages.map(item => (
-    <LanguageButton key={item} name={item.name} backgroundColor={item.backgroundColor} color={item.color} />
+  const allLanguages = languages.map((item, index) => (
+    <LanguageButton key={index} name={item.name} backgroundColor={item.backgroundColor} color={item.color} />
   ))
 
-  const mapCurrentWord = currentWord.split('').map((item, index) => (<span className="px-4 py-3 bg-[#323231] mx-1 border-b-2 text-white" key={index}>{item.toLocaleUpperCase()}</span>))
-  console.log(mapCurrentWord)
+  const mapCurrentWord = currentWord.split('').map((item, index) => (
+    <span
+      className="px-4 py-3 bg-[#323231] mx-1 border-b-2 text-white mb-2"
+      key={index}
+    >
+      {allLetters.includes(item) ? item.toUpperCase() : ''}
+    </span>))
 
-  const allAlphabets = alphabet.split('').map((item, index) => (
-    <button className="m-1 bg-[#FCBA29] py-4 px-4 rounded-md" key={index}>{item.toUpperCase()}</button>
-  ))
+  const onLetterClick = (letter) =>{
+    setAllLetters(prev =>
+      prev.includes(letter) ? prev :
+        [...prev, letter])
+    // const letterSet = new Set(prev)
+    // letterSet.add(letter)
+    // return [...letterSet]
+  }
   
+  const allAlphabets = alphabet.split('').map((letter, index) => {
+    const isGuessed = allLetters.includes(letter)
+    const isCorrect = isGuessed && currentWord.includes(letter)
+    const isWrong = isGuessed && !currentWord.includes(letter)
+
+
+    const className = `m-1 bg-[#FCBA29] py-2 px-4 rounded-[3px] border-white border 
+    ${isCorrect ? 'bg-green-500' : 'bg-[#FCBA29]'}
+    ${isWrong ? 'bg-red-500' : 'bg-[#FCBA29]'}
+    `
+
+    return (
+      <button
+        className={className}
+        key={index}
+        onClick={() => onLetterClick(letter)}
+        value={letter}>
+        {letter.toUpperCase()}
+      </button>)
+  })
+
 
   return (
     <>
       <div className="bg-[#282725] h-[100vh] flex flex-col justify-center items-center text-center font-[inter] ">
-        <header className="max-w-[60vw]">
-          <div className="">
+        <header className="max-w-[40vw] min-w-[400px]">
+          <div>
             <h1 className="text-[#F9F4DA] font-[inter] font-bold text-3xl">Assembly: Endgame</h1>
             <p className="text-[#8E8E8E] font-[inter] text-[1rem] pt-3">Guess the word in under 8 attempts to keep the programming world safe from Assembly!</p>
-            </div>
+          </div>
         </header>
         <main className="max-w-[50vw] min-w-[400px]">
           <section className="status-section">
@@ -39,11 +74,14 @@ function App() {
             {mapCurrentWord}
           </section>
           <section className="programmingLanguages-section flex gap-1 flex-wrap justify-center my-10 ">
-             {allLanguages}
+            {allLanguages}
           </section>
           <section className="programmingLanguages-section flex gap-1 flex-wrap justify-center">
-             {allAlphabets}
+            {allAlphabets}
           </section>
+          <button
+            className="bg-[#11B5E5] py-2 px-8 rounded-[3px] mt-10 border border-white font-medium"
+          >New Game</button>
         </main>
       </div>
     </>
