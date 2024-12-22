@@ -10,6 +10,7 @@ function App() {
   console.log(wrongGuesses.length)
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz"
+  console.log(alphabet)
 
   const allLanguages = languages.map((item, index) => (
     <LanguageButton key={index} name={item.name} backgroundColor={item.backgroundColor} color={item.color} />
