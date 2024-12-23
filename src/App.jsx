@@ -42,7 +42,7 @@ function App() {
     const isWrong = isGuessed && !currentWord.includes(letter)
 
 
-    const className = `m-1 bg-[#FCBA29] py-2 px-4 rounded-[3px] border-white border 
+    const className = `m-1 bg-[#FCBA29] py-2 px-4 rounded-[3px] border-white border h-10 w-10 flex justify-center items-center
     ${isCorrect ? 'bg-green-500' : 'bg-[#FCBA29]'}
     ${isWrong ? 'bg-red-500' : 'bg-[#FCBA29]'}
     `
@@ -98,12 +98,17 @@ function App() {
           <section className="programmingLanguages-section flex gap-1 flex-wrap justify-center my-10 ">
             {allLanguages}
           </section>
-          <section className="programmingLanguages-section flex gap-1 flex-wrap justify-center">
+          <section className="programmingLanguages-section flex gap-1 flex-wrap justify-center items-center">
             {allAlphabets}
           </section>
-          {isGameOver && <button
-            className="bg-[#11B5E5] py-2 px-8 rounded-[3px] mt-10 border border-white font-medium"
-          >New Game</button>}
+          {isGameOver ? <button
+            className="bg-[#11B5E5] py-2 px-8 rounded-[3px] mt-10 border border-white font-medium h-10 "
+          >New Game</button>:
+          <button
+          className="py-2 px-8 rounded-[3px] mt-10  font-medium h-10"
+          >
+          </button> 
+          }
         </main>
       </div>
     </>
