@@ -5,15 +5,18 @@ import { useState } from "react"
 function App() {
   const [currentWord] = useState('react')
   const [allLetters, setAllLetters] = useState([])
-  
-  const wrongGuesses = allLetters.filter(letter => !currentWord.includes(letter))
-  console.log(wrongGuesses.length)
-
   const alphabet = "abcdefghijklmnopqrstuvwxyz"
-  console.log(alphabet)
+
+  const wrongGuesses = allLetters.filter(letter => !currentWord.includes(letter)).length
+
+  const isGameWon = currentWord.split("").every(letter => allLetters.includes(letter))
+  const isGameLost = wrongGuesses >= languages.length - 1
+  const isGameOver = isGameWon || isGameLost
+  console.log(isGameOver)
+
 
   const allLanguages = languages.map((item, index) => (
-    <LanguageButton key={index} name={item.name} backgroundColor={item.backgroundColor} color={item.color} />
+    <LanguageButton key={index} index={index} name={item.name} backgroundColor={item.backgroundColor} color={item.color} wrongGuesses={wrongGuesses} />
   ))
 
   const mapCurrentWord = currentWord.split('').map((item, index) => (
@@ -24,7 +27,7 @@ function App() {
       {allLetters.includes(item) ? item.toUpperCase() : ''}
     </span>))
 
-  const onLetterClick = (letter) =>{
+  const onLetterClick = (letter) => {
     setAllLetters(prev =>
       prev.includes(letter) ? prev :
         [...prev, letter])
@@ -32,7 +35,7 @@ function App() {
     // letterSet.add(letter)
     // return [...letterSet]
   }
-  
+
   const allAlphabets = alphabet.split('').map((letter, index) => {
     const isGuessed = allLetters.includes(letter)
     const isCorrect = isGuessed && currentWord.includes(letter)
@@ -65,12 +68,31 @@ function App() {
           </div>
         </header>
         <main className="max-w-[50vw] min-w-[400px]">
-          <section className="status-section">
-            <div className="bg-[#10A95B] text-white rounded-md py-4 my-10 font-normal text-xl">
-              <p>You win!</p>
-              <p className="font-light">Well done!🎉</p>
-            </div>
-          </section>
+          {isGameOver ? (
+            isGameWon ?(
+            <section className="status-section ">
+              <div className="bg-[#10A95B] text-white flex flex-col justify-center rounded-md py-3 px-3 my-10 font-normal text-xl h-24">
+                <p>You win!</p>
+                <p className="font-light text-sm">Well done!🎉</p>
+              </div>
+            </section>
+
+            ) : (
+            <section className="status-section">
+              <div className="bg-[#dd2d2d] text-white flex flex-col justify-center rounded-md py-3 px-3 my-10 font-normal text-xl h-24">
+                <p>Game Over!</p>
+                <p className="font-light text-sm">You lose! Better start learning Assembly😂</p>
+              </div>
+            </section>
+
+            )):
+            <section className="status-section">
+              <div className="border border-dotted text-white rounded-md py-3 px-3 my-10 font-normal text-xl h-24">
+              </div>
+            </section>
+          )
+        }
+
           <section className="flex flex-wrap justify-center">
             {mapCurrentWord}
           </section>
@@ -80,9 +102,9 @@ function App() {
           <section className="programmingLanguages-section flex gap-1 flex-wrap justify-center">
             {allAlphabets}
           </section>
-          <button
+          {isGameOver && <button
             className="bg-[#11B5E5] py-2 px-8 rounded-[3px] mt-10 border border-white font-medium"
-          >New Game</button>
+          >New Game</button>}
         </main>
       </div>
     </>
