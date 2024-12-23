@@ -69,7 +69,7 @@ function App() {
         </header>
         <main className="max-w-[50vw] min-w-[400px]">
           {isGameOver ? (
-            isGameWon ?(
+            isGameWon ? (
             <section className="status-section ">
               <div className="bg-[#10A95B] text-white flex flex-col justify-center rounded-md py-3 px-3 my-10 font-normal text-xl h-24">
                 <p>You win!</p>
@@ -90,8 +90,7 @@ function App() {
               <div className="border border-dotted text-white rounded-md py-3 px-3 my-10 font-normal text-xl h-24">
               </div>
             </section>
-          )
-        }
+          }
 
           <section className="flex flex-wrap justify-center">
             {mapCurrentWord}
