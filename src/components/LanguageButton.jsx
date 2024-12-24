@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 
 
 const LanguageButton = (props) => {
-
   const styles = {
     backgroundColor: props.backgroundColor,
     color: props.color,
@@ -23,7 +22,7 @@ LanguageButton.propTypes = {
   name: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string,
   color: PropTypes.string.isRequired,
-  wrongGuesses: PropTypes.array.isRequired,
+  wrongGuesses: PropTypes.number.isRequired,
 }
 
 export default LanguageButton
